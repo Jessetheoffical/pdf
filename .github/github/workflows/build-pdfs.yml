@@ -1,0 +1,37 @@
+name: Build and upload PDFs
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - generate_ims_pdfs.py
+      - .github/workflows/build-pdfs.yml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install --upgrade pip fpdf2
+
+      - name: Fetch fonts
+        run: |
+          mkdir -p fonts
+          curl -L -o fonts/DejaVuSans.ttf https://github.com/dejavu-fonts/dejavu-fonts/raw/version_2_37/ttf/DejaVuSans.ttf
+          curl -L -o fonts/NotoSansSC-Regular.otf https://github.com/googlefonts/noto-cjk/raw/main/Sans/OTF/SimplifiedChinese/NotoSansSC-Regular.otf
+
+      - name: Build PDFs
+        run: python generate_ims_pdfs.py
+
+      - name: Upload PDFs as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ims-pdfs
+          path: |
+            IMS_Hub_English.pdf
+            IMS_Hub_Chinese.pdf
