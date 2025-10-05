@@ -73,7 +73,7 @@ class StyledPDF(FPDF):
         else:
             return "ZHB" if bold else "ZH"
 
-    def add_cover(self, subtitle="Smart Matching. Global Connections."):
+    def add_cover(self, subtitle="Smart Matching. Global Connections."):  
         self.add_page()
         self.set_fill_color(*PRIMARY)
         self.rect(0, 0, self.w, 50, style="F")
@@ -156,7 +156,7 @@ class StyledPDF(FPDF):
         paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
         import re as _re
         for p in paragraphs:
-            if "\n" in p and any(line.strip().startswith(("-", "•")) for line in p.splitlines()):
+            if "\n" in p and any(line.strip().startswith(('-', '•')) for line in p.splitlines()):
                 items = [_re.sub(r"^(-|•)\s*", "", line.strip()) for line in p.splitlines() if line.strip()]
                 self.write_bullets(items)
                 continue
@@ -350,7 +350,7 @@ AI 智能匹配
 智能推荐奖学金和大学
 提供留学签证与文书支持
 毕业生实习和就业匹配
-认证教育机构和课程
+认证教育���构和课程
 全球大学合作网络
 
 目标：
